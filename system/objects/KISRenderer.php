@@ -11,7 +11,6 @@ defined("ENTER_POINT") OR exit("No direct access allowed here ! Get out !");
  * @subpackage system/objects
  * @author Hugo Guerrier
  */
-
 class KISRenderer {
 
 

@@ -3,11 +3,9 @@
 defined("ENTER_POINT") OR exit("No direct access allowed here ! Get out !");
 
 /**
- * This file contains the framework configuration, you can't move or rename it but you can change a lot of things in it.
+ * DON'T MOVE OR RENAME THIS FILE
  *
- * @author Hugo Guerrier
- * @package KISFramework
- * @subpackage app/config
+ * This file contains all the framework constants, you can modify or add ones.
  */
 
 // Framework config
