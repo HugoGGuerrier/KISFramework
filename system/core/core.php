@@ -17,4 +17,10 @@ defined("ENTER_POINT") OR exit("No direct access allowed here ! Get out !");
 // ---------------------------------------------------------------------------------------------------------------------
 
 // Create a request object
-$request = new KISRequest();
+try {
+    $request = new KISRequest();
+} catch (Exception $e) {
+    KISSpecialRenderer::render_error($e, "Request parsing error !", true);
+}
+
+

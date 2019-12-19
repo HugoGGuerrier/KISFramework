@@ -29,7 +29,7 @@ class KISSpecialRenderer {
 
         $error_object = $exception_object;
 
-        include "system/templates/error.php";
+        include BASE_PATH . "system/templates/error.php";
 
         if($stop_exec) {
             exit(1);

@@ -17,20 +17,26 @@
 // ----- Define the ENTER_POINT var to make the framework know you're at the good enter point
 define("ENTER_POINT", true);
 
-// ----- Importing the framework config
-require_once "app/config/constants.php";
+// ----- Define the absolute base path of the framework
+define("BASE_PATH", realpath("..") . "/");
+
+// ----- Import the framework constants
+require_once BASE_PATH . "app/config/constants.php";
 
 // ------ Including all objects of the system
-$libs_to_include = preg_grep("#^(KIS).+\.php$#", scandir("system/objects/"));
+$libs_to_include = preg_grep("#^(KIS).+\.php$#", scandir( BASE_PATH . "system/objects/"));
 foreach ($libs_to_include as $lib) {
-    require_once "system/objects/" . $lib;
+    require_once BASE_PATH . "system/objects/" . $lib;
 }
 
 // ------ Including all lib of the system
-$libs_to_include = preg_grep("#^(KIS).+\.php$#", scandir("system/lib/"));
+$libs_to_include = preg_grep("#^(KIS).+\.php$#", scandir(BASE_PATH . "system/lib/"));
 foreach ($libs_to_include as $lib) {
-    require_once "system/lib/" . $lib;
+    require_once BASE_PATH . "system/lib/" . $lib;
 }
 
+// ----- Load the framework configuration
+KISConfig::load_config();
+
 // ----- Launching the framework's core
-require_once "system/core/core.php";
+require_once BASE_PATH . "system/core/core.php";

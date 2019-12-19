@@ -52,12 +52,17 @@ class KISRequest {
 
     /**
      * KISRequest constructor with an url to extract information about it
+     *
+     * @throws Exception If there is an error int the request parsing
      */
     public function __construct() {
         // Get the request method
         $method = $_SERVER["REQUEST_METHOD"];
-        if()
-        $this->method = $_SERVER["REQUEST_METHOD"];
+        if(in_array($method, KISConfig::get_accepted_methods())) {
+            $this->method = $method;
+        } else {
+            throw new Exception("Unacceptable http method : " . $method);
+        }
     }
 
 

@@ -17,15 +17,35 @@ class KISConfig {
     // ----- Object Attributes -----
 
 
-    // Todo : create the needed attributes
+    /**
+     * The array that define the accepted methods
+     *
+     * @var array
+     */
+    private static $accepted_methods = array();
+
+
+    // ----- Getter -----
+
+
+    public static function get_accepted_methods() {
+        return self::$accepted_methods;
+    }
 
 
     // ----- Object methods -----
 
 
     public static function load_config() {
-        // Load the constants file
-        require_once "app/config/constants.php";
+        // ----- Load the security config
+        require_once BASE_PATH . "app/config/security.php";
+
+        // Set the accepted methods
+        if(isset($accepted_methods) AND $accepted_methods !== array()) {
+            self::$accepted_methods = $accepted_methods;
+        }
+
     }
+
 
 }
