@@ -17,10 +17,40 @@ class KISRenderer {
     // ----- Attributes -----
 
 
+    /**
+     * This array contains all errors to display
+     *
+     * @var array
+     */
+    private static $errors = array();
+
+    /**
+     * This array contains all the warning to display
+     *
+     * @var array
+     */
+    private static $warnings = array();
+
+    /**
+     * This array contains all the info to display
+     *
+     * @var array
+     */
+    private static $infos = array();
+
+
     // ----- Object methods -----
 
 
+    /**
+     * Add an error to render in the final render
+     *
+     * @param Exception $exception_object The exception object
+     * @param string $error_title The error title
+     */
+    public static function add_error($exception_object, $error_title = "Unnamed Error") {
 
+    }
 
 
 }

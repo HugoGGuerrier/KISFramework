@@ -17,22 +17,31 @@
 // ----- Define the ENTER_POINT var to make the framework know you're at the good enter point
 define("ENTER_POINT", true);
 
-// ----- Define the absolute base path of the framework
-define("BASE_PATH", realpath("..") . "/");
+// ----- Define the absolute base path of the framework root
+$root_path = explode("/", __DIR__);
+unset($root_path[count($root_path) - 1]);
+$root_path = join("/", $root_path);
+define("BASE_PATH", $root_path . "/");
 
 // ----- Import the framework constants
 require_once BASE_PATH . "app/config/constants.php";
 
-// ------ Including all objects of the system
+// ----- Including all objects of the system
 $libs_to_include = preg_grep("#^(KIS).+\.php$#", scandir( BASE_PATH . "system/objects/"));
 foreach ($libs_to_include as $lib) {
     require_once BASE_PATH . "system/objects/" . $lib;
 }
 
-// ------ Including all lib of the system
+// ----- Including all lib of the system
 $libs_to_include = preg_grep("#^(KIS).+\.php$#", scandir(BASE_PATH . "system/lib/"));
 foreach ($libs_to_include as $lib) {
     require_once BASE_PATH . "system/lib/" . $lib;
+}
+
+// ----- Including all custom exceptions
+$libs_to_include = preg_grep("#^(KIS).+\.php$#", scandir( BASE_PATH . "system/lib/exceptions/"));
+foreach ($libs_to_include as $lib) {
+    require_once BASE_PATH . "system/lib/exceptions/" . $lib;
 }
 
 // ----- Load the framework configuration

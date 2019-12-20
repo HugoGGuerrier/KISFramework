@@ -1,5 +1,4 @@
 <?php
 
-http_response_code(404);
-include ("app/web/views/errors/404.php");
-exit(1);
+// Lauch the main php script
+require_once "public/index.php";

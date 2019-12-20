@@ -37,7 +37,7 @@ class KISRequest {
      *
      * @var array
      */
-    private $route = array();
+    private $route = array("controller" => "index", "method" => "index");
 
     /**
      * The request args for the framework
@@ -46,14 +46,22 @@ class KISRequest {
      */
     private $framework_args = array();
 
+    /**
+     * The data of the request ($_GET or $_POST)
+     *
+     * @var array
+     */
+    private $data = array();
+
 
     // ----- Constructors -----
 
 
     /**
-     * KISRequest constructor with an url to extract information about it
+     * KISRequest constructor.
+     * Construct an url from the current super globals and extract information about it.
      *
-     * @throws Exception If there is an error int the request parsing
+     * @throws KISBadMethodException If there is an error int the request parsing
      */
     public function __construct() {
         // Get the request method
@@ -61,8 +69,47 @@ class KISRequest {
         if(in_array($method, KISConfig::get_accepted_methods())) {
             $this->method = $method;
         } else {
-            throw new Exception("Unacceptable http method : " . $method);
+            throw new KISBadMethodException("Unacceptable http method : " . $method);
         }
+
+        // Split the request uri and clean it
+        $split_uri = explode("/", $_SERVER["PHP_SELF"]);
+        foreach ($split_uri as $key => $uri_part) {
+            if ($uri_part === "") {
+                unset($split_uri[$key]);
+            }
+        }
+
+        // Get the index of the index.php word
+        $index_index = array_search("index.php", $split_uri);
+
+        // Get the access mode of the request (api or web)
+        if(isset($split_uri[$index_index + 1])) {
+            if($split_uri[$index_index + 1] === "api") {
+                $this->access_mode = "api";
+            } else {
+                $this->access_mode = "web";
+            }
+        }
+
+        // Get the requested route
+        if($this->access_mode === "web") {
+            if(isset($split_uri[$index_index + 1])) {
+                $this->route["controller"] = $split_uri[$index_index + 1];
+                if(isset($split_uri[$index_index + 2])) {
+                    $this->route["method"] = $split_uri[$index_index + 2];
+                }
+            }
+        } else {
+            if(isset($split_uri[$index_index + 2])) {
+                $this->route["controller"] = $split_uri[$index_index + 2];
+                if(isset($split_uri[$index_index + 3])) {
+                    $this->route["method"] = $split_uri[$index_index + 3];
+                }
+            }
+        }
+
+
     }
 
 
