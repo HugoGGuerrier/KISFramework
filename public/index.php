@@ -23,6 +23,8 @@ unset($root_path[count($root_path) - 1]);
 $root_path = join("/", $root_path);
 define("BASE_PATH", $root_path . "/");
 
+echo BASE_PATH;
+
 // ----- Import the framework constants
 require_once BASE_PATH . "app/config/constants.php";
 
