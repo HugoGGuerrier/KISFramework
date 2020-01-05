@@ -12,7 +12,17 @@ defined("ENTER_POINT") OR exit("No direct access allowed here ! Get out !");
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-// ----- STEP 1 : Process and determine the route to take
+// ----- STEP 1 : Load the core files and load the configuration
+
+// ---------------------------------------------------------------------------------------------------------------------
+require_once BASE_PATH . "system/core/common.php";
+
+// Load the framework's configuration
+load_config();
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+// ----- STEP 2 : Process and determine the route to take
 
 // ---------------------------------------------------------------------------------------------------------------------
 

@@ -15,8 +15,12 @@ defined("ENTER_POINT") OR exit("No direct access allowed here ! Get out !");
 $accepted_methods = array("GET", "POST");
 
 // This array contains the accepted framework's mode (api and web)
-$accepted_mode = array("web", "api");
+$accepted_modes = array("web", "api");
 
-// This boolean says if you want the framework to sanitize every input (Forms, request params...)
-// This sanitization include XSS injections, SQL injections, Code execution.
+// This array contains all encodings that the framework will accept (if the auto_sanitize is "on")
+// This array is used by a mb_detect_encoding() function, please refer the php doc to see available encodings
+$accepted_encodings = array("UTF-8");
+
+// This boolean says if you want the framework to sanitize every input (Forms, request params, POST and GET...)
+// This sanitization include XSS injection, charset verification
 $auto_sanitize = TRUE;

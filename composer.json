@@ -1,0 +1,16 @@
+{
+  "name": "hugoguerrier/KISFramework",
+  "description": "The Keep It Simple Framework",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Hugo Guerrier",
+      "email": "hugogguerrier@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0",
+    "ext-json": ">=1.0",
+    "ext-mbstring": "*"
+  }
+}

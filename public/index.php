@@ -23,31 +23,26 @@ unset($root_path[count($root_path) - 1]);
 $root_path = join("/", $root_path);
 define("BASE_PATH", $root_path . "/");
 
-echo BASE_PATH;
-
 // ----- Import the framework constants
 require_once BASE_PATH . "app/config/constants.php";
 
-// ----- Including all objects of the system
+// ----- Include all objects of the system
 $libs_to_include = preg_grep("#^(KIS).+\.php$#", scandir( BASE_PATH . "system/objects/"));
 foreach ($libs_to_include as $lib) {
     require_once BASE_PATH . "system/objects/" . $lib;
 }
 
-// ----- Including all lib of the system
+// ----- Include all lib of the system
 $libs_to_include = preg_grep("#^(KIS).+\.php$#", scandir(BASE_PATH . "system/lib/"));
 foreach ($libs_to_include as $lib) {
     require_once BASE_PATH . "system/lib/" . $lib;
 }
 
-// ----- Including all custom exceptions
+// ----- Include all custom exceptions
 $libs_to_include = preg_grep("#^(KIS).+\.php$#", scandir( BASE_PATH . "system/lib/exceptions/"));
 foreach ($libs_to_include as $lib) {
     require_once BASE_PATH . "system/lib/exceptions/" . $lib;
 }
-
-// ----- Load the framework configuration
-KISConfig::load_config();
 
 // ----- Launching the framework's core
 require_once BASE_PATH . "system/core/core.php";

@@ -30,7 +30,7 @@ class KISRequest {
      *
      * @var string
      */
-    private $access_mode = "web";
+    private $access_mode;
 
     /**
      * The request route
@@ -54,7 +54,7 @@ class KISRequest {
     private $data = array();
 
 
-    // ----- Constructors -----
+    // ----- Constructor -----
 
 
     /**
@@ -62,52 +62,45 @@ class KISRequest {
      * Construct an url from the current super globals and extract information about it.
      *
      * @throws KISBadMethodException If there is an error int the request parsing
+     * @throws KISBadModeException If the request is in a bad mode
      */
     public function __construct() {
         // Get the request method
         $method = $_SERVER["REQUEST_METHOD"];
-        if(in_array($method, KISConfig::get_accepted_methods())) {
+        if(in_array($method, KISSecurity::get_accepted_methods())) {
             $this->method = $method;
         } else {
             throw new KISBadMethodException("Unacceptable http method : " . $method);
         }
 
-        // Split the request uri and clean it
-        $split_uri = explode("/", $_SERVER["PHP_SELF"]);
-        foreach ($split_uri as $key => $uri_part) {
-            if ($uri_part === "") {
-                unset($split_uri[$key]);
+        // Split the request uri and prepare it for parsing
+        $split_uri_raw = explode("/", $_SERVER["PHP_SELF"]);
+        $split_uri_clean = array();
+        $index_key = array_search("index.php", $split_uri_raw);
+
+        foreach ($split_uri_raw as $key => $uri_part) {
+            if ($uri_part !== "" && $key > $index_key) {
+                $split_uri_clean[] = $uri_part;
             }
         }
 
-        // Get the index of the index.php word
-        $index_index = array_search("index.php", $split_uri);
-
-        // Get the access mode of the request (api or web)
-        if(isset($split_uri[$index_index + 1])) {
-            if($split_uri[$index_index + 1] === "api") {
-                $this->access_mode = "api";
-            } else {
-                $this->access_mode = "web";
-            }
+        // Get the access mode of the request (api or web) and prepare the array for routing
+        $mode = "web";
+        if($split_uri_clean[0] === "api") {
+            $mode = "api";
+            $split_uri_clean = array_splice($split_uri_clean, 1);
         }
 
-        // Get the requested route
-        if($this->access_mode === "web") {
-            if(isset($split_uri[$index_index + 1])) {
-                $this->route["controller"] = $split_uri[$index_index + 1];
-                if(isset($split_uri[$index_index + 2])) {
-                    $this->route["method"] = $split_uri[$index_index + 2];
-                }
-            }
+        var_dump(KISSecurity::is_valid_encoding($split_uri_clean[0]));
+
+        // Verify the access mode
+        if(in_array($this->access_mode, KISSecurity::get_accepted_modes())) {
+            $this->access_mode = $mode;
         } else {
-            if(isset($split_uri[$index_index + 2])) {
-                $this->route["controller"] = $split_uri[$index_index + 2];
-                if(isset($split_uri[$index_index + 3])) {
-                    $this->route["method"] = $split_uri[$index_index + 3];
-                }
-            }
+            throw new KISBadModeException("Unacceptable mode request : " . $mode);
         }
+
+        // Get the framework's route and args
 
 
     }
