@@ -33,6 +33,15 @@ try {
 
 } catch (KISBadMethodException $e) {
 
-    KISSpecialRenderer::render_error($e, "HTTP method error !", true);
+    echo "BAD_METHOD!";
+    exit(1);
+
+} catch (KISBadModeException $e) {
+
+    echo "BAD_KIS_MODE!";
+    exit(1);
 
 }
+
+// Test the request parsing
+var_dump($request);

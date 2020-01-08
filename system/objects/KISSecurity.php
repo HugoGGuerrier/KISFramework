@@ -38,13 +38,6 @@ class KISSecurity {
      */
     private static $accepted_encodings = array();
 
-    /**
-     * If the framework has to sanitize all inputs
-     *
-     * @var bool
-     */
-    private static $auto_sanitize;
-
 
     // ----- Getter -----
 
@@ -70,43 +63,30 @@ class KISSecurity {
         return self::$accepted_encodings;
     }
 
-    /**
-     * @return bool
-     */
-    public static function is_auto_sanitize() {
-        return self::$auto_sanitize;
-    }
-
 
     // ----- Setter -----
 
 
     /**
-     * @param array $accepted_methods The array of the accepted methods
+     * Configure the security object with the configuration array
+     *
+     * @param array $config_array The configuration array
      */
-    public static function set_accepted_methods($accepted_methods) {
-        self::$accepted_methods = $accepted_methods;
-    }
+    public static function init_from_config($config_array) {
+        // Accepted methods
+        if(isset($config_array["accepted_methods"])) {
+            self::$accepted_methods = $config_array["accepted_methods"];
+        }
 
-    /**
-     * @param array $accepted_modes The array of the accepted modes
-     */
-    public static function set_accepted_modes($accepted_modes) {
-        self::$accepted_modes = $accepted_modes;
-    }
+        // Accepted modes
+        if(isset($config_array["accepted_modes"])) {
+            self::$accepted_modes = $config_array["accepted_modes"];
+        }
 
-    /**
-     * @param array $accepted_encodings The array of the accepted encodings
-     */
-    public static function set_accepted_encodings($accepted_encodings) {
-        self::$accepted_encodings = $accepted_encodings;
-    }
-
-    /**
-     * @param bool $auto_sanitize A boolean to auto sanitize or not
-     */
-    public static function set_auto_sanitize($auto_sanitize) {
-        self::$auto_sanitize = $auto_sanitize;
+        // Accepted encodings
+        if(isset($config_array["accepted_encodings"])) {
+            self::$accepted_encodings = $config_array["accepted_encodings"];
+        }
     }
 
 
@@ -118,10 +98,6 @@ class KISSecurity {
     }
 
     public static function xss_clean($string_to_clean) {
-
-    }
-
-    public static function sql_clean($string_to_clean) {
 
     }
 

@@ -47,11 +47,11 @@ class KISRequest {
     private $framework_args = array();
 
     /**
-     * The data of the request ($_GET or $_POST)
+     * The data of the request ($_GET and $_POST)
      *
      * @var array
      */
-    private $data = array();
+    private $data = array("GET" => array(), "POST" => array());
 
 
     // ----- Constructor -----
@@ -63,8 +63,11 @@ class KISRequest {
      *
      * @throws KISBadMethodException If there is an error int the request parsing
      * @throws KISBadModeException If the request is in a bad mode
+     * @throws KISBadEncodingException If the request contains a bad encoding string
      */
     public function __construct() {
+        // ----- Get the request context (method and mode)
+
         // Get the request method
         $method = $_SERVER["REQUEST_METHOD"];
         if(in_array($method, KISSecurity::get_accepted_methods())) {
@@ -73,8 +76,14 @@ class KISRequest {
             throw new KISBadMethodException("Unacceptable http method : " . $method);
         }
 
+        // Verify the request uri
+        $uri_raw = $_SERVER["PHP_SELF"];
+        if(!KISSecurity::is_valid_encoding($uri_raw)) {
+            throw new KISBadEncodingException("URI encoding exception : " . $uri_raw);
+        }
+
         // Split the request uri and prepare it for parsing
-        $split_uri_raw = explode("/", $_SERVER["PHP_SELF"]);
+        $split_uri_raw = explode("/", $uri_raw);
         $split_uri_clean = array();
         $index_key = array_search("index.php", $split_uri_raw);
 
@@ -91,18 +100,33 @@ class KISRequest {
             $split_uri_clean = array_splice($split_uri_clean, 1);
         }
 
-        var_dump(KISSecurity::is_valid_encoding($split_uri_clean[0]));
-
         // Verify the access mode
-        if(in_array($this->access_mode, KISSecurity::get_accepted_modes())) {
+        if(in_array($mode, KISSecurity::get_accepted_modes())) {
             $this->access_mode = $mode;
         } else {
             throw new KISBadModeException("Unacceptable mode request : " . $mode);
         }
 
-        // Get the framework's route and args
+        // ----- Get the framework's route and args and the request data
 
+        // Get the controller
+        if(isset($split_uri_clean[0])) {
+            $this->route["controller"] = $split_uri_clean[0];
+            $split_uri_clean = array_splice($split_uri_clean, 1);
+        }
 
+        // Get the method
+        if(isset($split_uri_clean[0])) {
+            $this->route["method"] = $split_uri_clean[0];
+            $split_uri_clean = array_splice($split_uri_clean, 1);
+        }
+
+        // Get the framework's args
+        $this->framework_args = $split_uri_clean;
+
+        // Get the GET and POST data
+        $this->data["GET"] = $_GET;
+        $this->data["POST"] = $_POST;
     }
 
 

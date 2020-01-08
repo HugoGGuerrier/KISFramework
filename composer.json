@@ -10,7 +10,8 @@
   ],
   "require": {
     "php": ">=7.0.0",
-    "ext-json": ">=1.0",
-    "ext-mbstring": "*"
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "ext-pdo": "*"
   }
 }
