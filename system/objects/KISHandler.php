@@ -14,24 +14,36 @@ class KISHandler {
 
 
     /**
-     * This method handle all error and render the correct result
+     * Method to handle an error
      *
-     * @param Exception $exception_object The exception object
+     * @param Exception $error_object The exception object of the error
      * @param string $error_title The error title
-     * @param bool $stop_exec If the framework has to stop
+     * @param bool $error_mortal If the framework has to stop
      */
-    public static function handle_php_error($exception_object, $error_title = "Unnamed error", $stop_exec = FALSE) {
-        // TODO
-    }
+    public static function handle_error($error_object, $error_title = "Unnamed error", $error_mortal = FALSE) {
+        // Get the errors params to display it
+        $view_args = array(
+            "title" => $error_title,
+            "message" => $error_object->getMessage(),
+            "file" => $error_object->getFile(),
+            "line" => $error_object->getLine(),
+            "trace" => $error_object->getTrace(),
+            "mortal" => $error_mortal
+        );
 
-    /**
-     * This method handle an http error with its code and render the template
-     *
-     * @param string $error_code
-     */
-    public static function handle_http_error($error_code) {
-        include BASE_PATH . "app/web/views/errors/" . $error_code . ".php";
-        exit(1);
+        // If the env is prod just render an internal server error (500)
+        if(ENV === 0) {
+            $error_view = new KISView("templates/error.php", $view_args);
+        } else {
+            $error_view = new KISView("errors/500.php", array());
+            $error_mortal = TRUE;
+        }
+
+        // Add the view and render if mortal error
+        KISRenderer::add_error($error_view);
+        if($error_mortal) {
+            KISRenderer::render(1);
+        }
     }
 
 

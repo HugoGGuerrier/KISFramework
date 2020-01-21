@@ -124,6 +124,19 @@ class KISRequest {
         // Get the framework's args
         $this->framework_args = $split_uri_clean;
 
+        // Verify the GET and POST data before getting them
+        foreach ($_GET as $arg) {
+            if(!KISSecurity::is_valid_encoding($arg)) {
+                throw new KISBadEncodingException("GET argument encoding exception : " . $arg);
+            }
+        }
+
+        foreach ($_POST as $arg) {
+            if(!KISSecurity::is_valid_encoding($arg)) {
+                throw new KISBadEncodingException("POST argument encoding exception : " . $arg);
+            }
+        }
+
         // Get the GET and POST data
         $this->data["GET"] = $_GET;
         $this->data["POST"] = $_POST;
@@ -147,6 +160,35 @@ class KISRequest {
 
     public function get_framework_args() {
         return $this->framework_args;
+    }
+
+    public function get_data() {
+        return $this->data;
+    }
+
+
+    // ----- No setter for the request, it's a final object -----
+
+
+    // ----- Class methods -----
+
+
+    /**
+     * Get the GET param of the request
+     *
+     * @return array The GET params of the request
+     */
+    public function get_get() {
+        return $this->data["GET"];
+    }
+
+    /**
+     * Get the post array of the request
+     *
+     * @return array The POST array of the request
+     */
+    public function get_post() {
+        return $this->data["POST"];
     }
 
 

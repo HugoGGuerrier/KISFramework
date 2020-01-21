@@ -41,7 +41,12 @@ try {
     echo "BAD_KIS_MODE!";
     exit(1);
 
+} catch (KISBadEncodingException $e) {
+
+    echo "BAD_ENCODING!";
+    exit(1);
+
 }
 
-// Test the request parsing
 var_dump($request);
+

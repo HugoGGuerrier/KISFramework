@@ -15,7 +15,7 @@ defined("ENTER_POINT") OR exit("No direct access allowed here ! Get out !");
 $security_config = array(
 
     // This array contains all the http methods the framework will accept.
-    // Reminder (don't thank me) : GET, POST, PUT, HEAD, DELETE, OPTIONS
+    // Reminder (don't thank me) : GET, POST, PUT, HEAD, DELETE, OPTIONS, CONNECT, TRACE, PATCH
     "accepted_methods" => array("GET", "POST"),
 
     // This array contains the accepted framework's mode (api and web)
