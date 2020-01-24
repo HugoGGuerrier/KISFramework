@@ -91,11 +91,7 @@ class KISSecurity {
 
 
     // ----- Objects methods -----
-
-
-    public static function full_clean($string_to_clean) {
-
-    }
+    
 
     public static function xss_clean($string_to_clean) {
 
@@ -121,18 +117,6 @@ class KISSecurity {
     }
 
     public static function is_csrf_token_valid() {
-
-    }
-
-
-    // ----- String verifying methods -----
-
-
-    public static function is_valid_mail($string_to_verify) {
-
-    }
-
-    public static function is_valid_phone($string_to_verify) {
 
     }
 

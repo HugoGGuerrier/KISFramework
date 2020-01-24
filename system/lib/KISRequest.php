@@ -19,7 +19,7 @@ class KISRequest {
 
 
     /**
-     * The request method (GET | POST | PUT | HEAD | DELETE)
+     * The request method
      *
      * @var string
      */

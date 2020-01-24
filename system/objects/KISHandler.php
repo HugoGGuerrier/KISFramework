@@ -33,10 +33,25 @@ class KISHandler {
 
         // If the env is prod just render an internal server error (500)
         if(ENV === 0) {
-            $error_view = new KISView("templates/error.php", $view_args);
+
+            try {
+                $error_view = new KISView("templates/erroer", $view_args);
+            } catch (KISResourceException $e) {
+                echo "Missing app/web/views/templates/error.php file !";
+                exit(1);
+            }
+
         } else {
-            $error_view = new KISView("errors/500.php", array());
+
+            try {
+                $error_view = new KISView("errors/e500");
+            } catch (KISResourceException $e) {
+                echo "<title>500 - Internal server error</title>";
+                echo "Internal server error !";
+                exit(1);
+            }
             $error_mortal = TRUE;
+
         }
 
         // Add the view and render if mortal error

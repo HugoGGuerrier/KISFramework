@@ -9,7 +9,7 @@ defined("ENTER_POINT") OR exit("No direct access allowed here ! Get out !");
  */
 
 // Framework config
-defined("ENV")                               OR define("ENV", 0); // 0 = dev | 1 or more = production
+defined("ENV")                               OR define("ENV", 1); // 0 = dev | 1 or more = production
 
 // Path definition
 defined("COMMON_MODELS_PATH")                OR define("COMMON_MODELS_PATH", BASE_PATH . "app/models/"); // The path to the models

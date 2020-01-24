@@ -33,20 +33,15 @@ try {
 
 } catch (KISBadMethodException $e) {
 
-    echo "BAD_METHOD!";
-    exit(1);
+    KISHandler::handle_error($e, "Bad HTTP method", TRUE);
 
 } catch (KISBadModeException $e) {
 
-    echo "BAD_KIS_MODE!";
-    exit(1);
+    KISHandler::handle_error($e, "Bad access mode", TRUE);
 
 } catch (KISBadEncodingException $e) {
 
-    echo "BAD_ENCODING!";
-    exit(1);
+    KISHandler::handle_error($e, "Bad encoding", TRUE);
 
 }
-
-var_dump($request);
 

@@ -36,9 +36,16 @@ class KISView {
      *
      * @param string $view_file The name of the view file
      * @param array $view_params The param to render the view file with
+     * @throws KISResourceException if the view file doesn't exists
      */
-    public function __construct($view_file, $view_params) {
-        $this->view_file = $view_file;
+    public function __construct($view_file, $view_params = array()) {
+        // Get the view file and test it
+        $this->view_file = BASE_PATH . "app/web/views/" . $view_file . ".php";
+        if (!is_file($this->view_file)) {
+            throw new KISResourceException("Not found file : " . $this->view_file);
+        }
+
+        // Get the view params
         $this->view_params = $view_params;
     }
 
@@ -65,6 +72,20 @@ class KISView {
     public function set_view_params($view_pararms) {
         $this->view_params = $view_pararms;
     }
+
+
+    // ----- Class methods -----
+
+
+    public function render() {
+        // Create all view variables
+        foreach ($this->view_params as $name => $param) {
+            $$name = $param;
+        }
+
+        // Include the view file
+        include $this->view_file;
+}
 
 
 }

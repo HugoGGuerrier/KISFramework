@@ -114,46 +114,99 @@ class KISRenderer {
         // If the renderer is not off
         if(self::$render_mode !== self::$OFF_RENDER) {
 
-            // Select the render function
-            $render_func = isset(self::$render_vector[self::$render_mode]) ? self::$render_vector[self::$render_mode] : "";
-
-            if($render_func === "") {
-                echo "Error in render mode ! Please correct it...";
-                exit(1);
-            }
-
             // Render if there is no error
             if($exit_code === 0) {
+                // Select the render function
+                $render_func = isset(self::$render_vector[self::$render_mode]) ? self::$render_vector[self::$render_mode] : "";
+
+                if($render_func === "" OR $render_func === "off") {
+                    echo "Error in render mode ! Please correct it...";
+                    exit(1);
+                }
+
+                // Render the website
                 $render_func();
+
             }
 
             // Render if the exit code indicate an error
             else {
-                // If the renderer is set on file, change it into web to display error correctly
-                if($render_func === self::$render_vector[self::$FILE_RENDER]) {
-                    $render_func = self::$render_vector[self::$WEB_RENDER];
+
+                // Chose the error render mode for now there are only two error render mode json and web
+                switch (self::$render_mode) {
+
+                    case (self::$WEB_RENDER):
+                    case (self::$FILE_RENDER):
+
+                        // Render errors
+                        foreach (self::$errors as $error) {
+                            if ($error instanceof KISView) {
+                                $error->render();
+                            }
+                        }
+
+                        // Render warnings
+                        foreach (self::$warnings as $warning) {
+                            if ($warning instanceof KISView) {
+                                $warning->render();
+                            }
+                        }
+
+                        // Render infos
+                        foreach (self::$infos as $info) {
+                            if ($info instanceof KISView) {
+                                $info->render();
+                            }
+                        }
+
+                        break;
+
+                    case (self::$API_RENDER):
+
+                        // Add errors to api result
+                        foreach (self::$errors as $error) {
+                            if ($error instanceof KISView) {
+                                $error_params = $error->get_view_params();
+
+                                self::$api_data[] = array(
+                                    "error_title" => $error_params["title"],
+                                    "error_message" => $error_params["message"],
+                                    "error_file" => $error_params["file"],
+                                    "error_line" => $error_params["line"],
+                                    "error_trace" => $error_params["trace"],
+                                    "is_error_mortal" => $error_params["mortal"]
+                                );
+                            }
+                        }
+
+                        // Add warnings to api result
+                        foreach (self::$warnings as $warning) {
+                            if ($warning instanceof KISView) {
+
+                                // TODO : Define warning structure and make the api render
+
+                            }
+                        }
+
+                        // Add infos to api result
+                        foreach (self::$infos as $info) {
+                            if ($info instanceof KISView) {
+
+                                // TODO : Define info structure and make the api render
+
+                            }
+                        }
+
+                        // Render the api result
+                        self::render_api();
+
+                        break;
+
+                    default:
+                        break;
+
                 }
 
-                // Render all infos
-                foreach (self::$infos as $info) {
-                    if($info instanceof KISView) {
-                        ($render_func . "_view")($info);
-                    }
-                }
-
-                // Render all warnings
-                foreach (self::$warnings as $warning) {
-                    if($warning instanceof KISView) {
-                        ($render_func . "_view")($warning);
-                    }
-                }
-
-                // Render all errors
-                foreach (self::$errors as $error) {
-                    if($error instanceof KISView) {
-                        ($render_func . "_view")($error);
-                    }
-                }
             }
 
         }
@@ -168,17 +221,9 @@ class KISRenderer {
 
     }
 
-    private static function render_web_view($view) {
-
-    }
-
     // --- The api renderer
 
     private static function render_api() {
-
-    }
-
-    private static function render_api_view($view) {
 
     }
 
