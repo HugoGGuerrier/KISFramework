@@ -35,7 +35,7 @@ class KISHandler {
         if(ENV === 0) {
 
             try {
-                $error_view = new KISView("templates/erroer", $view_args);
+                $error_view = new KISView("templates/error", $view_args);
             } catch (KISResourceException $e) {
                 echo "Missing app/web/views/templates/error.php file !";
                 exit(1);
@@ -44,7 +44,7 @@ class KISHandler {
         } else {
 
             try {
-                $error_view = new KISView("errors/e500");
+                $error_view = new KISView("errors/500");
             } catch (KISResourceException $e) {
                 echo "<title>500 - Internal server error</title>";
                 echo "Internal server error !";
