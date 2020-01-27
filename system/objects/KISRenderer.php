@@ -86,6 +86,22 @@ class KISRenderer {
     private static $file_to_render = "";
 
 
+    // ----- Getter -----
+
+
+    public static function get_response_code() {
+        return self::$response_code;
+    }
+
+
+    // ----- Setter -----
+
+
+    public static function set_response_code($response_code) {
+        self::$response_code = $response_code;
+    }
+
+
     // ----- Object methods -----
 
 

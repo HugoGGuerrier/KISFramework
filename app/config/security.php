@@ -16,7 +16,7 @@ $security_config = array(
 
     // This array contains all the http methods the framework will accept.
     // Reminder (don't thank me) : GET, POST, PUT, HEAD, DELETE, OPTIONS, CONNECT, TRACE, PATCH
-    "accepted_methods" => array("GET", "POST"),
+    "accepted_methods" => array("", "POST"),
 
     // This array contains the accepted framework's mode (api and web)
     "accepted_modes" => array("web", "api"),

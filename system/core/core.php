@@ -27,21 +27,24 @@ load_config();
 // ---------------------------------------------------------------------------------------------------------------------
 
 // Create a request object
+
 try {
 
     $request = new KISRequest();
 
 } catch (KISBadMethodException $e) {
 
-    KISHandler::handle_error($e, "Bad HTTP method", TRUE);
+    KISHandler::handle_exception($e, "Bad HTTP method", TRUE);
 
 } catch (KISBadModeException $e) {
 
-    KISHandler::handle_error($e, "Bad access mode", TRUE);
+    KISHandler::handle_exception($e, "Bad access mode", TRUE);
 
 } catch (KISBadEncodingException $e) {
 
-    KISHandler::handle_error($e, "Bad encoding", TRUE);
+    KISHandler::handle_exception($e, "Bad encoding", TRUE);
 
 }
 
+echo "core ended correctly !";
+exit(0);

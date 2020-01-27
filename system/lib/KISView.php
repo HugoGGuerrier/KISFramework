@@ -42,7 +42,7 @@ class KISView {
         // Get the view file and test it
         $this->view_file = BASE_PATH . "app/web/views/" . $view_file . ".php";
         if (!is_file($this->view_file)) {
-            throw new KISResourceException("Not found file : " . $this->view_file);
+            throw new KISResourceException("File not found : " . $this->view_file);
         }
 
         // Get the view params

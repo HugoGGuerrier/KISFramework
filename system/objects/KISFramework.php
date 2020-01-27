@@ -14,4 +14,34 @@ defined("ENTER_POINT") OR exit("No direct access allowed here ! Get out !");
  */
 class KISFramework {
 
+
+    // ----- Attributes -----
+
+
+    /**
+     * The parsed and verified request
+     *
+     * @var KISRequest
+     */
+    private static $request;
+
+
+    // ----- Getter -----
+
+
+    public function get_request() {
+        return self::$request;
+    }
+
+
+    // ----- Setter -----
+
+
+    public function set_request($request) {
+        if($request instanceof KISRequest) {
+            self::$request = $request;
+        }
+    }
+
+
 }

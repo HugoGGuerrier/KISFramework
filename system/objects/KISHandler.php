@@ -16,19 +16,19 @@ class KISHandler {
     /**
      * Method to handle an error
      *
-     * @param Exception $error_object The exception object of the error
-     * @param string $error_title The error title
-     * @param bool $error_mortal If the framework has to stop
+     * @param Exception $exception The exception object of the error
+     * @param string $exception_title The error title
+     * @param bool $exception_mortal If the framework has to stop
      */
-    public static function handle_error($error_object, $error_title = "Unnamed error", $error_mortal = FALSE) {
+    public static function handle_exception($exception, $exception_title = "Unnamed error", $exception_mortal = FALSE) {
         // Get the errors params to display it
         $view_args = array(
-            "title" => $error_title,
-            "message" => $error_object->getMessage(),
-            "file" => $error_object->getFile(),
-            "line" => $error_object->getLine(),
-            "trace" => $error_object->getTrace(),
-            "mortal" => $error_mortal
+            "title" => $exception_title,
+            "message" => $exception->getMessage(),
+            "file" => $exception->getFile(),
+            "line" => $exception->getLine(),
+            "trace" => $exception->getTrace(),
+            "mortal" => $exception_mortal
         );
 
         // If the env is prod just render an internal server error (500)
@@ -37,6 +37,7 @@ class KISHandler {
             try {
                 $error_view = new KISView("templates/error", $view_args);
             } catch (KISResourceException $e) {
+                http_response_code(500);
                 echo "Missing app/web/views/templates/error.php file !";
                 exit(1);
             }
@@ -45,18 +46,21 @@ class KISHandler {
 
             try {
                 $error_view = new KISView("errors/500");
+                KISRenderer::set_response_code(500);
             } catch (KISResourceException $e) {
+                http_response_code(500);
                 echo "<title>500 - Internal server error</title>";
                 echo "Internal server error !";
                 exit(1);
             }
-            $error_mortal = TRUE;
+            $exception_mortal = TRUE;
 
         }
 
         // Add the view and render if mortal error
         KISRenderer::add_error($error_view);
-        if($error_mortal) {
+        if($exception_mortal) {
+            KISRenderer::set_response_code(500);
             KISRenderer::render(1);
         }
     }
