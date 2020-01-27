@@ -26,20 +26,23 @@ define("BASE_PATH", $root_path . "/");
 // ----- Import the framework constants
 require_once BASE_PATH . "app/config/constants.php";
 
+// ----- Define the pattern for the framework files
+$include_pattern = "#^(KIS).+\.php$#";
+
 // ----- Include all objects of the system
-$libs_to_include = preg_grep("#^(KIS).+\.php$#", scandir( BASE_PATH . "system/objects/"));
+$libs_to_include = preg_grep($include_pattern, scandir( BASE_PATH . "system/objects/"));
 foreach ($libs_to_include as $lib) {
     require_once BASE_PATH . "system/objects/" . $lib;
 }
 
 // ----- Include all lib of the system
-$libs_to_include = preg_grep("#^(KIS).+\.php$#", scandir(BASE_PATH . "system/lib/"));
+$libs_to_include = preg_grep($include_pattern, scandir(BASE_PATH . "system/lib/"));
 foreach ($libs_to_include as $lib) {
     require_once BASE_PATH . "system/lib/" . $lib;
 }
 
 // ----- Include all custom exceptions
-$libs_to_include = preg_grep("#^(KIS).+\.php$#", scandir( BASE_PATH . "system/lib/exceptions/"));
+$libs_to_include = preg_grep($include_pattern, scandir( BASE_PATH . "system/lib/exceptions/"));
 foreach ($libs_to_include as $lib) {
     require_once BASE_PATH . "system/lib/exceptions/" . $lib;
 }

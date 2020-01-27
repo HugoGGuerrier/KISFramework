@@ -6,6 +6,10 @@ defined("ENTER_POINT") OR exit("No direct access allowed here ! Get out !");
  * Class KISView
  *
  * This class model a view to render with its params
+ *
+ * @package KISFramework
+ * @subpackage system/lib
+ * @author Hugo Guerrier
  */
 class KISView {
 
@@ -77,6 +81,9 @@ class KISView {
     // ----- Class methods -----
 
 
+    /**
+     * Render the view with its arguments
+     */
     public function render() {
         // Create all view variables
         foreach ($this->view_params as $name => $param) {
@@ -85,7 +92,7 @@ class KISView {
 
         // Include the view file
         include $this->view_file;
-}
+    }
 
 
 }
