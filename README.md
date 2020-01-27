@@ -1,2 +1,2 @@
 # KISFramework
-Keep It Simple Framework : A simple web framework for we application dev.
+Keep It Simple Framework : A simple web framework for web application.
