@@ -140,7 +140,7 @@ class KISRenderer {
                     exit(1);
                 }
 
-                // Render the website
+                // Render the result
                 $render_func();
 
             }

@@ -25,25 +25,18 @@ class KISDatabaseConnection {
     private static $connection;
 
     /**
-     * The database host
+     * If the database has to connect automatically
      *
-     * @var string
+     * @var bool
      */
-    private static $db_host = "";
+    private static $auto_connect = FALSE;
 
     /**
-     * The database port
+     * The DSN for the pdo object
      *
      * @var string
      */
-    private static $db_port = "";
-
-    /**
-     * The database name
-     *
-     * @var string
-     */
-    private static $db_name = "";
+    private static $data_source_name = "";
 
     /**
      * The database user
@@ -59,50 +52,39 @@ class KISDatabaseConnection {
      */
     private static $db_password = "";
 
+    /**
+     * The connection options
+     *
+     * @var array
+     */
+    private static $options = array();
+
 
     // ----- Getter -----
 
 
-    /**
-     * @return PDO
-     */
     public static function get_db_connection() {
         return self::$connection;
     }
 
-    /**
-     * @return string
-     */
-    public static function get_db_host() {
-        return self::$db_host;
+    public static function get_auto_connect() {
+        return self::$auto_connect;
     }
 
-    /**
-     * @return string
-     */
-    public static function get_db_port() {
-        return self::$db_port;
+    public static function get_dsn() {
+        return self::$data_source_name;
     }
 
-    /**
-     * @return string
-     */
-    public static function get_db_name() {
-        return self::$db_name;
-    }
-
-    /**
-     * @return string
-     */
     public static function get_db_user() {
         return self::$db_user;
     }
 
-    /**
-     * @return string
-     */
     public static function get_db_password() {
         return self::$db_password;
+    }
+
+    public static function get_options() {
+        return self::$options;
     }
 
 
@@ -115,15 +97,54 @@ class KISDatabaseConnection {
      * @param array $config_array
      */
     public static function init_from_config($config_array) {
-        // TODO
+        // Auto connection
+        if(isset($config_array["auto_connect"])) {
+            self::$auto_connect = $config_array["auto_connect"];
+        }
+
+        // Data source name
+        if(isset($config_array["dsn"])) {
+            self::$data_source_name = $config_array["dsn"];
+        }
+
+        // User name
+        if(isset($config_array["user"])) {
+            self::$db_user = $config_array["user"];
+        }
+
+        // User password
+        if(isset($config_array["password"]))     {
+            self::$db_password = $config_array["password"];
+        }
+
+        // Options
+        if(isset($config_array["options"])) {
+            self::$options = $config_array["options"];
+        }
     }
 
 
     // ----- Object methods -----
 
 
+    /**
+     * This method create the pdo connection with the configuration
+     *
+     * @throws PDOException If there is an error in connection
+     */
     public static function connect() {
-        // Load the database config
+        try {
+            self::$connection = new PDO(self::$data_source_name, self::$db_user, self::$db_password, self::$options);
+        } catch (PDOException $e) {
+            KISHandler::handle_exception($e, "PDO can't open database connection", TRUE);
+        }
+    }
+
+    /**
+     * Disconnect from the database
+     */
+    public static function disconnect() {
+        self::$connection = null;
     }
 
 

@@ -94,7 +94,11 @@ class KISSecurity {
     
 
     public static function xss_clean($string_to_clean) {
+        $res = htmlspecialchars($string_to_clean);
+        $res = trim($res);
+        $res = stripslashes($res);
 
+        return $res;
     }
 
     /**

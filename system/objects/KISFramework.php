@@ -29,7 +29,7 @@ class KISFramework {
     // ----- Getter -----
 
 
-    public function get_request() {
+    public static function get_request() {
         return self::$request;
     }
 
@@ -37,7 +37,7 @@ class KISFramework {
     // ----- Setter -----
 
 
-    public function set_request($request) {
+    public static function set_request($request) {
         if($request instanceof KISRequest) {
             self::$request = $request;
         }
