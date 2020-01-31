@@ -12,10 +12,19 @@ defined("ENTER_POINT") OR exit("No direct access allowed here ! Get out !");
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-// ----- STEP 1 : Load the core files, load the configuration and make auto action
+// ----- STEP 1 : Load the core files, load the configuration and verify file system
 
 // ---------------------------------------------------------------------------------------------------------------------
+
+// Importing core files
 require_once BASE_PATH . "system/core/common.php";
+
+// Verify the file system integrity
+try {
+    check_file_system();
+} catch (KISResourceException $e) {
+    KISHandler::handle_exception($e, "File system error", TRUE);
+}
 
 // Load the framework's configuration
 try {
@@ -24,7 +33,7 @@ try {
     KISHandler::handle_exception($e, "Configuration error", TRUE);
 }
 
-// Auto load
+// Make the app auto load
 try {
     autoload();
 } catch (KISResourceException $e) {

@@ -80,3 +80,13 @@ if (!function_exists("autoload")) {
     }
 
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+if (!function_exists("check_file_system")) {
+
+    function check_file_system() {
+        // TODO : check all the framework file system (is_writable, is_readable, etc...)
+    }
+
+}

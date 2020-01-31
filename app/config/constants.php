@@ -10,9 +10,11 @@ defined("ENTER_POINT") OR exit("No direct access allowed here ! Get out !");
 
 // Framework config
 defined("ENV")                               OR define("ENV", 0); // 0 = dev | 1 or more = production
+defined("LOG_FORMAT")                        OR define("LOG_FORMAT", "%Y/%m/%d - %H:%i:%s :m"); // The log format, to configure it please refer to documentation
 
 // Path definition
 defined("COMMON_MODELS_PATH")                OR define("COMMON_MODELS_PATH", BASE_PATH . "app/models/"); // The path to the models
+defined("COMMON_LOG_PATH")                   OR define("COMMON_LOG_PATH", BASE_PATH . "app/log/"); // The path to the log folder
 
 defined("API_CONTROLLERS_PATH")              OR define("API_CONTROLLERS_PATH", BASE_PATH . "app/api/controllers/"); // The path to the api controllers
 

@@ -96,7 +96,7 @@ class KISDatabaseConnection {
      *
      * @param array $config_array
      */
-    public static function init_from_config($config_array) {
+    public static function init_from_config(array $config_array) {
         // Auto connection
         if(isset($config_array["auto_connect"])) {
             self::$auto_connect = $config_array["auto_connect"];
@@ -145,6 +145,10 @@ class KISDatabaseConnection {
      */
     public static function disconnect() {
         self::$connection = null;
+    }
+
+    public static function prepare_statement(string $sql, array $args = array()) {
+
     }
 
 
